@@ -38,5 +38,36 @@ yes Y | sudo apt-get install libgtk2.0-dev libatlas-base-dev gfortran
 wget "https://github.com/MikhailTodes/OpenCV-for-Pi/raw/master/latest-OpenCV.deb"
 sudo dpkg -i latest-OpenCV.deb
 
+#Speech Recognition
+yes Y | sudo apt-get install flac
+yes Y | sudo apt-get install python-pyaudio python3-pyaudio sox
+sudo pip install SpeechRecognition
+sudo pip3 install SpeechRecognition
+yes Y | sudo apt-get install portaudio19-dev python-all-dev python3-all-dev
+sudo pip install pyaudio
+sudo pip3 install pyaudio
+
+cat > ~/.asoundrc <<EOF
+pcm.!default {
+
+  type plug
+  slave {
+    pcm "hw:1,0"
+  }
+
+}
+
+ctl.!default {
+
+  type hw
+  card 1
+
+}
+EOF
+
+#Delete PulseAudio
+yes Y | sudo apt-get --purge remove pulseaudio
+yes Y | sudo apt-get autoremove
+
 #Reboot after installations are complete
 sudo reboot
